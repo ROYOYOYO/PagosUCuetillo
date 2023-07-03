@@ -1,0 +1,12 @@
+org\openjpa\entidades\Semestre.class
+org\openjpa\entidades\Carrera.class
+org\openjpa\entidades\Pagos.class
+org\openjpa\control\exceptions\EntidadPreexistenteException.class
+org\openjpa\OpenJPA.class
+org\openjpa\control\exceptions\NoExisteEntidadException.class
+org\openjpa\control\PersonaControl.class
+org\openjpa\control\AlumnoControl.class
+org\openjpa\control\exceptions\IlegalesHuerfanasException.class
+org\openjpa\entidades\Asignaturas.class
+org\openjpa\entidades\Alumno.class
+org\openjpa\entidades\Persona.class
