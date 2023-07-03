@@ -1,9 +1,23 @@
 package org.openjpa.control;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.openjpa.OpenJPA;
 
 public class RootLayoutController {
@@ -86,24 +100,31 @@ public class RootLayoutController {
     private void handleExit() {
         System.exit(0);
     }
-    
     @FXML
     public void Reportes()
-    {
-//         try
-//         {
-//            JasperReport jasperReport = null;
-//            JasperPrint jasperPrint = null;
-//            JasperDesign jasperDesign = null;
-//            Map parameters = new HashMap();
-//            jasperDesign = JRXmlLoader.load("E:\\Katsuki\\jasper\\src\\main\\java\\ListaPersonas.jrxml");
-//            jasperReport = JasperCompileManager.compileReport(jasperDesign);
-//            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,new JRBeanCollectionDataSource(Datos.generarDatosPersona()));
-//            JasperExportManager.exportReportToPdfFile(jasperPrint,"target\\ListaPersonas.pdf");
-//            JasperViewer.viewReport(jasperPrint);
-//            
-//        } catch (Exception ex){
-//            System.out.println("EXCEPTION: "+ ex);
-//        }  
+    {        
+        String url = "jdbc:mysql://localhost:3306/dbcuetillojpa";
+        String usuario = "root";
+        String contraseña = "";
+        try{  
+            Connection connection = DriverManager.getConnection(url, usuario, contraseña);
+            try{
+            JasperReport jasperReport = null;
+            JasperPrint jasperPrint = null;
+            JasperDesign jasperDesign = null;            
+            jasperDesign = JRXmlLoader.load(getClass().getResourceAsStream("/fxml/Reporteuniversidadcuetillo.jrxml"));
+            jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            jasperPrint = JasperFillManager.fillReport(jasperReport, null,connection);
+            JasperExportManager.exportReportToPdfFile(jasperPrint,"reportesListaPersonas.pdf");
+            JasperViewer view=new JasperViewer(jasperPrint,false);
+            //view.setDefaultCloseOperation(1);
+            view.setVisible(true);
+            
+            } catch (Exception ex){
+                System.out.println("EXCEPTION: "+ ex);
+            }
+        }catch(SQLException e){
+            System.out.println("error en la conección"+e);
+        }
     }
 }

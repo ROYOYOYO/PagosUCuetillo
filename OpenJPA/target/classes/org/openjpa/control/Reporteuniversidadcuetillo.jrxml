@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporteuniversidadcuetillo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="292ebce4-eed0-46f7-9a50-8edcfae5d712">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="alumno" class="java.lang.String"/>
+	<field name="asignaturas" class="java.lang.String"/>
+	<field name="semestre" class="java.lang.String"/>
+	<field name="monto a pagar" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="30" width="329" height="30" uuid="4ce664fe-eef9-45e5-9efd-a4e893db1422"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Reporte de Pago Universidad Cuetillo
+]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="15" width="100" height="30" uuid="0ffe4071-f6bd-44c8-96e8-712237bb18d5"/>
+				<text><![CDATA[alumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="11" width="100" height="30" uuid="1aa1c681-bae1-49c6-89bc-e652cd04d637"/>
+				<text><![CDATA[asignatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="11" width="100" height="30" uuid="5ed45d28-f050-440c-bb27-524ad18a6ca2"/>
+				<text><![CDATA[semestre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="11" width="100" height="30" uuid="c81f9277-47eb-4b0b-9a2e-fdb7ec8965c1"/>
+				<text><![CDATA[monto a pagar
+]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="30" width="100" height="30" uuid="d5348f16-458e-4d4b-8ddf-9a120b5c9e71">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87bb1b79-f57b-4e65-947f-289ccf432bc5"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="30" width="100" height="30" uuid="de714b7d-3cc7-4ac2-8a00-8bc155e86cc8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="90633438-c9b0-40b8-a69f-d7fc68ee7d4d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{asignaturas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="30" width="100" height="30" uuid="88e3d9d7-609b-4456-8082-5e1e7fca44a4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e9309451-6079-4251-a425-6733fc9e3f4d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="30" width="100" height="30" uuid="2c4bccef-36a7-49cc-b7ee-2877412fff85">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b6614c0f-ac26-42ab-9447-a134ee9d0bb2"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{monto a pagar}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
