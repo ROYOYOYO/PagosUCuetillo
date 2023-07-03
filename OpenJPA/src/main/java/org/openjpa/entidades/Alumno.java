@@ -45,20 +45,16 @@ public class Alumno implements Serializable
     private String genero;  
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
-    @ManyToOne
-    @JoinColumn(name = "semestre", referencedColumnName = "semestre_id")
-    private Semestre semestre;
-    @ManyToOne
-    @JoinColumn(name = "carrera", referencedColumnName = "carrera_id")
-    private Carrera carrera;
-    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
-    private List<Pago> pago;
+    @Column
+    private int semestre;
+    @Column
+    private int carrera;
     
     public Alumno() {
-        this(null, null, 0, 0, null, null, null, null);
+        this(null, null, 0, 0, null, 0, 0, null);
     }    
 
-    public Alumno(String nombre, String apellidos, int edad, int dni, String Genero, Carrera carrera, Semestre semestre, Date fechaNacimiento) {
+    public Alumno(String nombre, String apellidos, int edad, int dni, String Genero, int carrera, int semestre, Date fechaNacimiento) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.edad = edad;
@@ -66,7 +62,7 @@ public class Alumno implements Serializable
         this.genero = Genero;
         this.carrera = carrera;
         this.semestre = semestre;
-        this.fechaNacimiento = new Date(2005, 06, 15);
+        this.fechaNacimiento = fechaNacimiento;
     }
 
  
@@ -118,19 +114,19 @@ public class Alumno implements Serializable
         this.genero = Genero;
     }
 
-    public Carrera getCarrera() {
+    public int getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(int carrera) {
         this.carrera = carrera;
     }
 
-    public Semestre getSemestre() {
+    public int getSemestre() {
         return semestre;
     }
 
-    public void setSemestre(Semestre semestre) {
+    public void setSemestre(int semestre) {
         this.semestre = semestre;
     }
 
@@ -165,7 +161,8 @@ public class Alumno implements Serializable
 
     @Override
     public String toString() {
-        return "org.openjpa.Alumno[ alumnoId=" + alumnoId + " ]";
+        return "Alumno [alumnoId=" + alumnoId + "]";
     }
+
     
 }

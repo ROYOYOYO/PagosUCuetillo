@@ -7,6 +7,8 @@ package org.openjpa;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,64 +58,47 @@ public class OpenJPA extends Application{
         CarreraControl carreraControl = new CarreraControl(emf);
         PagoControl pagoControl = new PagoControl(emf);
         SemestreControl semestreControl = new SemestreControl(emf);
-
-        //Pedimos datos del autor
-        String nombre = leerTexto("Introduce nombre: ");
-        String apellidos = leerTexto("Introduce apellidos: ");        
-        int edad = leerNumero("Introduce la edad: ");
-        int dni = leerNumero("Introduce su dni: ");
-        String Genero = leerTexto("Introduce genero: ");
-        Date fechaActual = new Date();
-
-        carrera = new Carrera("Ingeniería", 10, 150.0);
-        semestre = new Semestre("Primer Semestre", 1, fechaActual, fechaActual, 20,22);
-        try {
-            // Lo añadimos a la BD
-            System.out.println("Identificador del autor: " + semestreControl.insertar(semestre));
-        } catch (EntidadPreexistenteException ex) {
-            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            // Lo añadimos a la BD
-            System.out.println("Identificador del autor: " + carreraControl.insertar(carrera));
-        } catch (EntidadPreexistenteException ex) {
-            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        alumno = new Alumno(nombre, apellidos, dni, edad, Genero, carrera, semestre, fechaActual);
-        try {
-            // Lo añadimos a la BD
-            System.out.println("Identificador del autor: " + alumnoControl.insertar(alumno));
-        } catch (EntidadPreexistenteException ex) {
-            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    //        // Creamos el mensaje
-    //        MensajeControl mensajeControl = new MensajeControl(emf);
-    //        
-    //        String mensajeStr = leerTexto("Introduce mensaje: ");
-    //        Mensaje mens = new Mensaje(mensajeStr, persona);
-    //        // Establecemos los campos
-    //        mens.setFecha(new Date());
-    //        // Y lo guardamos en la BD
-    //        int idMensaje = 0;
-    //        try {
-    //            idMensaje = mensajeControl.insertar(mens);
-    //        } catch (EntidadPreexistenteException ex) {
-    //            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
-    //        }
-    //        System.out.println("Identificador del mensaje: " + idMensaje);
-    //        
-    //        System.out.println("============================================");
-    //
-    //        List<Persona> results = personaControl.buscaPersonas();
-    //        for(Persona p : results){
-    //            System.out.println(p);
-    //        }
-    //        
-    //        System.out.println("============================================");
-    //        // Marcamos el comienzo de la transacción
-
-
+        
+//        //Pedimos datos del autor
+//        String nombre = leerTexto("Introduce nombre: ");
+//        String apellidos = leerTexto("Introduce apellidos: ");        
+//        int edad = leerNumero("Introduce la edad: ");
+//        int dni = leerNumero("Introduce su dni: ");
+//        String Genero = leerTexto("Introduce genero: ");
+//        Date fechaActual = new Date();
+//
+//        carrera = new Carrera("Ingeniería", 10, 150.0);
+//        try {
+//            // Lo añadimos a la BD
+//            System.out.println("Identificador del autor: " + carreraControl.insertar(carrera));
+//        } catch (EntidadPreexistenteException ex) {
+//            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+//        Date fechaInicio = null;
+//        Date fechaFin = null;
+//        try {
+//            fechaInicio = formato.parse("2022-01-10");
+//            fechaFin = formato.parse("2022-06-30");
+//        } catch (ParseException ex) {
+//            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        semestre = new Semestre("Primer Semestre", 1, fechaInicio, fechaFin, 20);
+//        try {
+//            // Lo añadimos a la BD
+//            System.out.println("Identificador del autor: " + semestreControl.insertar(semestre));
+//        } catch (EntidadPreexistenteException ex) {
+//            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        alumno = new Alumno(nombre, apellidos, edad, dni, Genero, carrera, semestre, fechaActual);
+//        try {
+//            // Lo añadimos a la BD
+//            System.out.println("Identificador del autor: " + alumnoControl.insertar(alumno));
+//        } catch (EntidadPreexistenteException ex) {
+//            Logger.getLogger(OpenJPA.class.getName()).log(Level.SEVERE, null, ex);
+//        }   
     }
  
 

@@ -6,6 +6,7 @@ package org.openjpa.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,14 +36,13 @@ public class Pago implements Serializable{
     private double monto;
     @Column(length = 30)
     private String metodoPago;
-    @ManyToOne
-    @JoinColumn(name = "alumno", referencedColumnName = "alumno_id")
-    private Alumno alumno;
+    @Column
+    private int alumno;
     
     public Pago() {
     }
 
-    public Pago(Alumno alumno, double monto, String metodoPago) {
+    public Pago(int alumno, double monto, String metodoPago) {
         this.alumno = alumno;
         this.monto = monto;
         this.metodoPago = metodoPago;
@@ -56,11 +56,11 @@ public class Pago implements Serializable{
         this.pagoId = pagoId;
     }
 
-    public Alumno getAlumno() {
+    public int getAlumno() {
         return alumno;
     }
 
-    public void setAlumno(Alumno alumno) {
+    public void setAlumno(int alumno) {
         this.alumno = alumno;
     }
 

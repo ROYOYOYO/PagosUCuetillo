@@ -39,10 +39,6 @@ public class Carrera implements Serializable
     private int semestres;
     @Column
     private double costoCredito;
-    @OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL)
-    private List<Alumno> alumnos;
-    @OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL)
-    private List<Asignatura> asignatura;
     
     public Carrera() {
         this(null,0,0);
@@ -108,8 +104,10 @@ public class Carrera implements Serializable
 
     @Override
     public String toString() {
-        return "org.openjpa.Carrera[ carreraId=" + carreraId + " ]";
+        return descripcion;
     }
+
+
     
 
 }

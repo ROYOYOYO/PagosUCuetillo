@@ -6,6 +6,7 @@ package org.openjpa.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,18 +35,16 @@ public class Asignatura implements Serializable {
     private String descripcion;
     @Column
     private int numeroCreditos;
-    @ManyToOne
-    @JoinColumn(name = "semestre", referencedColumnName = "semestre_id")
-    private Semestre semestre;
-    @ManyToOne
-    @JoinColumn(name = "carrera", referencedColumnName = "carrera_id")
-    private Carrera carrera;
+    @Column
+    private int semestre;
+    @Column
+    private int carrera;
     
     public Asignatura() {
-        this(null, null, 0, null);    
+        this(null, 0, 0, 0);    
     }
 
-    public Asignatura(String Descripcion, Semestre semestre, int numeroCreditos, Carrera carrera) {
+    public Asignatura(String Descripcion, int semestre, int numeroCreditos, int carrera) {
         this.descripcion = Descripcion;
         this.semestre = semestre;
         this.numeroCreditos = numeroCreditos;
@@ -68,11 +67,11 @@ public class Asignatura implements Serializable {
         this.descripcion = Descripcion;
     }
 
-    public Semestre getSemestre() {
+    public int getSemestre() {
         return semestre;
     }
 
-    public void setSemestre(Semestre semestre) {
+    public void setSemestre(int semestre) {
         this.semestre = semestre;
     }
 
@@ -84,11 +83,11 @@ public class Asignatura implements Serializable {
         this.numeroCreditos = numeroCreditos;
     }
 
-    public Carrera getCarrera() {
+    public int getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(int carrera) {
         this.carrera = carrera;
     }
     

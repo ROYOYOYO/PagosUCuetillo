@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 import org.openjpa.control.exceptions.EntidadPreexistenteException;
 import org.openjpa.control.exceptions.NoExisteEntidadException;
 import org.openjpa.entidades.Alumno;
+import org.openjpa.entidades.Carrera;
+import org.openjpa.entidades.Semestre;
 
 public class AlumnoControl implements Serializable {
 
@@ -23,7 +25,7 @@ public class AlumnoControl implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+    
     public int insertar(Alumno alumno) throws EntidadPreexistenteException {
         EntityManager em = null;
         try {
@@ -119,5 +121,35 @@ public class AlumnoControl implements Serializable {
             em.close();
         }
     }
+    
+    public int obtenerCarreraId(String Carrera) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c WHERE c.descripcion = :descripcion", Carrera.class);
+        query.setParameter("descripcion", Carrera);
+        Carrera carrera = query.getSingleResult();
+        return carrera.getCarreraId();
+    }
+
+    public int obtenerSemestreId(String Semestre) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Semestre> query = em.createQuery("SELECT s FROM Semestre s WHERE s.descripcion = :descripcion", Semestre.class);
+        query.setParameter("descripcion", Semestre);
+        Semestre carrera = query.getSingleResult();
+        return carrera.getSemestreId();
+    }
+    
+    
+    public List<Carrera> obtenerCarrerasOrdenadasPorId() {
+    EntityManager em = getEntityManager();
+    TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c", Carrera.class);
+    return query.getResultList();
+    }
+
+    public List<Semestre> obtenerSemestresOrdenadosPorId() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Semestre> query = em.createQuery("SELECT s FROM Semestre s", Semestre.class);
+        return query.getResultList();
+    }
+
 
 }

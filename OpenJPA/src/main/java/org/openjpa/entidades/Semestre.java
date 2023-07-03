@@ -45,24 +45,17 @@ public class Semestre implements Serializable{
     private Date fechaFin;
     @Column
     private int creditosMin;
-    @Column
-    private int creditosActuales;
-    @OneToMany(mappedBy = "semestre", cascade = CascadeType.ALL)
-    private List<Alumno> alumnos;
-    @OneToMany(mappedBy = "semestre", cascade = CascadeType.ALL)
-    private List<Asignatura> asignatura;
     
     public Semestre() {
-        this(null,0,null,null,0,0);
+        this(null,0,null,null,0);
     }
 
-    public Semestre(String descripcion, int numero, Date fechaInicio, Date fechaFin, int creditosMin, int creditosActuales) {
+    public Semestre(String descripcion, int numero, Date fechaInicio, Date fechaFin, int creditosMin) {
         this.descripcion = descripcion;
         this.numero = numero;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.creditosMin = creditosMin;
-        this.creditosActuales = creditosActuales;
     }
 
     public Integer getSemestreId() {
@@ -112,14 +105,6 @@ public class Semestre implements Serializable{
     public void setCreditosMin(int creditosMin) {
         this.creditosMin = creditosMin;
     }
-
-    public int getCreditosActuales() {
-        return creditosActuales;
-    }
-
-    public void setCreditosActuales(int creditosActuales) {
-        this.creditosActuales = creditosActuales;
-    }
     
     @Override
     public int hashCode() {
@@ -143,6 +128,7 @@ public class Semestre implements Serializable{
 
     @Override
     public String toString() {
-        return "org.openjpa.Semestre[ semestreId=" + semestreId + " ]";
+        return descripcion;
     }
+
 }
