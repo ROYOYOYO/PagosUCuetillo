@@ -2,7 +2,10 @@
 
 USE DBCuetilloJPA;
 
+create table alumno
 
+/*ALTER TABLE Pago
+ADD FOREIGN KEY (alumno) REFERENCES alumno(alumno_id);*/
 
 -- Ejemplos de inserción de datos en la tabla carrera
 INSERT INTO carrera (Descripcion, Semestres, CostoCredito) VALUES

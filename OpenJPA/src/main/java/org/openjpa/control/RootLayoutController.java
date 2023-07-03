@@ -103,7 +103,7 @@ public class RootLayoutController {
     @FXML
     public void Reportes()
     {        
-        String url = "jdbc:mysql://localhost:3306/dbcuetillojpa";
+        String url = "jdbc:mariadb://localhost:3306/dbcuetillojpa";
         String usuario = "root";
         String contraseña = "";
         try{  
@@ -112,7 +112,7 @@ public class RootLayoutController {
             JasperReport jasperReport = null;
             JasperPrint jasperPrint = null;
             JasperDesign jasperDesign = null;            
-            jasperDesign = JRXmlLoader.load(getClass().getResourceAsStream("/fxml/Reporteuniversidadcuetillo.jrxml"));
+            jasperDesign = JRXmlLoader.load(getClass().getResourceAsStream("/org/openjpa/control/ReportePagos.jrxml"));
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             jasperPrint = JasperFillManager.fillReport(jasperReport, null,connection);
             JasperExportManager.exportReportToPdfFile(jasperPrint,"reportesListaPersonas.pdf");
