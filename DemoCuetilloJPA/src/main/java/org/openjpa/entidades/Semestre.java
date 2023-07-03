@@ -4,33 +4,76 @@
  */
 package org.openjpa.entidades;
 
-import java.time.LocalDate;
+import java.io.Serializable; 
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- *
- * @author AJ
- */
-public class Semestre {
-    private String id;
-    private String Descripcion;
+@Entity
+@Table(catalog = "openjpa", schema = "dbo")
+@NamedQueries({
+    @NamedQuery(name = "Semestre.seleccionaTodos", query = "SELECT s FROM Semestre s"),
+    @NamedQuery(name = "Semestre.seleccionaPorId", query = "SELECT s FROM Semestre s WHERE s.semestreId = :semestreId"),
+    @NamedQuery(name = "Semestre.seleccionaPorDescripcion", query = "SELECT s FROM Semestre s WHERE s.descripcion = :descripcion")})
+
+public class Semestre implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "semestre_id", nullable = false)
+    private Integer semestreId;
+    @Column(length = 20)
+    private String descripcion;
+    @Column
     private int numero;
-    private LocalDate FechaInicio;
-    private LocalDate FechaFin;
-    private int CreditosMin;
-    private int CreditosActuales;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaInicio;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFin;
+    @Column
+    private int creditosMin;
+    @Column
+    private int creditosActuales;
 
-    public Semestre(String id, String descripcion, int numero, LocalDate fechaInicio, LocalDate fechaFin, int creditosMin, int creditosActuales) {
-        this.id = id;
-        this.Descripcion = descripcion;
-        this.numero = numero;
-        this.FechaInicio = fechaInicio;
-        this.FechaFin = fechaFin;
-        this.CreditosMin = creditosMin;
-        this.CreditosActuales = creditosActuales;
+    public Semestre() {
+        this(null,0,null,null,0,0);
     }
-    
-    
-    
+
+    public Semestre(String descripcion, int numero, Date fechaInicio, Date fechaFin, int creditosMin, int creditosActuales) {
+        this.descripcion = descripcion;
+        this.numero = numero;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.creditosMin = creditosMin;
+        this.creditosActuales = creditosActuales;
+    }
+
+    public Integer getSemestreId() {
+        return semestreId;
+    }
+
+    public void setSemestreId(Integer semestreId) {
+        this.semestreId = semestreId;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public int getNumero() {
         return numero;
     }
@@ -39,45 +82,60 @@ public class Semestre {
         this.numero = numero;
     }
 
-    public LocalDate getFechaInicio() {
-        return FechaInicio;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.FechaInicio = fechaInicio;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public LocalDate getFechaFin() {
-        return FechaFin;
+    public Date getFechaFin() {
+        return fechaFin;
     }
 
-    public void setFechaFin(LocalDate fechaFin) {
-        this.FechaFin = fechaFin;
-    }
-
-    public String getDescripcion() {
-        return Descripcion;
-    }
-
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public int getCreditosMin() {
-        return CreditosMin;
+        return creditosMin;
     }
 
-    public void setCreditosMin(int CreditosMin) {
-        this.CreditosMin = CreditosMin;
+    public void setCreditosMin(int creditosMin) {
+        this.creditosMin = creditosMin;
     }
 
     public int getCreditosActuales() {
-        return CreditosActuales;
+        return creditosActuales;
     }
 
-    public void setCreditosActuales(int CreditosActuales) {
-        this.CreditosActuales = CreditosActuales;
+    public void setCreditosActuales(int creditosActuales) {
+        this.creditosActuales = creditosActuales;
     }
     
-    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (semestreId != null ? semestreId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Semestre)) {
+            return false;
+        }
+        Semestre other = (Semestre) object;
+        if ((this.semestreId == null && other.semestreId != null) || (this.semestreId != null && !this.semestreId.equals(other.semestreId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "org.openjpa.Semestre[ semestreId=" + semestreId + " ]";
+    }
 }

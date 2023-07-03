@@ -30,20 +30,20 @@ public class Alumno implements Serializable
     @Basic(optional = false)
     @Column(name = "alumno_id", nullable = false)
     private Integer alumnoId;
-    @Column(length = 30)
+    @Column(length = 20)
     private String nombre;
-    @Column(length = 60)
+    @Column(length = 40)
     private String apellidos;
     @Column
     private int edad;
     @Column
     private int dni;
     @Column
-    private char Genero;
-    @Column(length = 30)
-    private String Carrera;
-    @Column(length = 30)
-    private String Semestre;    
+    private char genero;
+    @Column(length = 10)
+    private String carrera;
+    @Column(length = 10)
+    private String semestre;    
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
 
@@ -56,9 +56,9 @@ public class Alumno implements Serializable
         this.apellidos = apellidos;
         this.edad = edad;
         this.dni = dni;
-        this.Genero = Genero;
-        this.Carrera = Carrera;
-        this.Semestre = Semestre;
+        this.genero = Genero;
+        this.carrera = Carrera;
+        this.semestre = Semestre;
         this.fechaNacimiento = new Date(2005, 06, 15);
     }
 
@@ -104,27 +104,27 @@ public class Alumno implements Serializable
     }
 
     public char getGenero() {
-        return Genero;
+        return genero;
     }
 
     public void setGenero(char Genero) {
-        this.Genero = Genero;
+        this.genero = Genero;
     }
 
     public String getCarrera() {
-        return Carrera;
+        return carrera;
     }
 
     public void setCarrera(String Carrera) {
-        this.Carrera = Carrera;
+        this.carrera = Carrera;
     }
 
     public String getSemestre() {
-        return Semestre;
+        return semestre;
     }
 
     public void setSemestre(String Semestre) {
-        this.Semestre = Semestre;
+        this.semestre = Semestre;
     }
 
     public Date getFechaNacimiento() {
