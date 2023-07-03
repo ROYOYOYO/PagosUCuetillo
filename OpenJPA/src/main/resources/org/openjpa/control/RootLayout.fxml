@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1280.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjpa.control.RootLayoutController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Pagos">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Pagos" text="Nuevo Pago" />
+               </items></Menu>
+          <Menu mnemonicParsing="false" text="Alumnos">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#Alumnos" text="Agregar Alumno" />
+            </items>
+          </Menu>
+            
+          <Menu mnemonicParsing="false" text="Carreras">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Carreras" text="Mantenimiento Carreras" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Asignaturas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#Asignaturas" text="Matenimiento Asignaturas" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Reportes">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Reporte de Pagos" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Sistema">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Ayuda" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Salir" />
+               </items></Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

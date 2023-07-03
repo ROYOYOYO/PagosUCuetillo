@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjpa.control.AlumnosController">
+   <children>
+      <Label layoutX="561.0" layoutY="25.0" prefHeight="33.0" prefWidth="189.0" text="Ingresar Nuevo Alumno">
+         <font>
+            <Font name="Arial Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="289.0" layoutY="157.0" text="Nombre" textFill="WHITE">
+         <font>
+            <Font name="Blackadder ITC" size="71.0" />
+         </font></Label>
+      <Label layoutX="616.0" layoutY="95.0" text="Apellido" />
+      <Label layoutX="621.0" layoutY="157.0" prefHeight="21.0" prefWidth="33.0" text="DNI" />
+      <Label layoutX="621.0" layoutY="223.0" text="Genero" />
+      <Label layoutX="293.0" layoutY="272.0" text="Carrera" />
+      <Label layoutX="623.0" layoutY="272.0" text="Semestre" />
+      <TextField fx:id="txtNombre" layoutX="393.0" layoutY="150.0" AnchorPane.bottomAnchor="535.0" AnchorPane.leftAnchor="393.0" AnchorPane.rightAnchor="683.0" AnchorPane.topAnchor="150.0" />
+      <TextField fx:id="txtApellido" layoutX="704.0" layoutY="90.0" />
+      <TextField fx:id="txtDNI" layoutX="704.0" layoutY="150.0" />
+      <Button fx:id="btnAgregar" layoutX="72.0" layoutY="151.0" mnemonicParsing="false" onAction="#AgregarDatos" prefHeight="33.0" prefWidth="110.0" text="Agregar" />
+      <Button fx:id="btnSalir" layoutX="73.0" layoutY="277.0" mnemonicParsing="false" onAction="#exit" prefHeight="33.0" prefWidth="110.0" text="Salir" />
+      <Label layoutX="290.0" layoutY="212.0" prefHeight="17.0" prefWidth="39.0" text="Edad" />
+      <ScrollPane layoutY="410.0" prefHeight="310.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="410.0">
+         <content>
+            <TableView fx:id="tblAlumnos" prefHeight="309.0" prefWidth="1278.0" styleClass="background" stylesheets="@DarkTheme.css">
+             
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Spinner fx:id="spEdad" editable="true" layoutX="393.0" layoutY="205.0" />
+      <Button fx:id="btnModificar" layoutX="73.0" layoutY="217.0" mnemonicParsing="false" onAction="#ModifDatos" text="Modificar" />
+      <RadioButton fx:id="rbMasculino" layoutX="713.0" layoutY="225.0" mnemonicParsing="false" text="Masculino" textFill="WHITE" />
+      <RadioButton fx:id="rbFemenino" layoutX="815.0" layoutY="225.0" mnemonicParsing="false" text="Femenino" textFill="WHITE" />
+      <Button fx:id="btnNuevo" layoutX="73.0" layoutY="91.0" mnemonicParsing="false" onAction="#Nuevo" prefHeight="33.0" prefWidth="110.0" text="Nuevo" />
+      <ComboBox fx:id="cbCarrera" layoutX="393.0" layoutY="270.0" prefHeight="25.0" prefWidth="204.0" />
+      <ComboBox fx:id="cbSemestre" layoutX="706.0" layoutY="270.0" prefHeight="25.0" prefWidth="204.0" />
+      <Label layoutX="290.0" layoutY="97.0" text="ID" />
+      <TextField fx:id="txtId" disable="true" editable="false" layoutX="393.0" layoutY="90.0" />
+   </children>
+</AnchorPane>
