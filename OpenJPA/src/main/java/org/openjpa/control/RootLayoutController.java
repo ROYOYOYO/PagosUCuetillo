@@ -112,7 +112,7 @@ public class RootLayoutController {
             JasperReport jasperReport = null;
             JasperPrint jasperPrint = null;
             JasperDesign jasperDesign = null;            
-            jasperDesign = JRXmlLoader.load(getClass().getResourceAsStream("/org/openjpa/control/ReportePagos.jrxml"));
+            jasperDesign = JRXmlLoader.load(getClass().getResourceAsStream("/org/openjpa/control/ReporteCuetillo.jrxml"));
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             jasperPrint = JasperFillManager.fillReport(jasperReport, null,connection);
             JasperExportManager.exportReportToPdfFile(jasperPrint,"reportesListaPersonas.pdf");
