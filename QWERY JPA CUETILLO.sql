@@ -1,4 +1,4 @@
-CREATE DATABASE DBCuetilloJPA;
+/*CREATE DATABASE DBCuetilloJPA;*/
 
 USE DBCuetilloJPA;
 
@@ -53,3 +53,7 @@ INSERT INTO pago (alumno, Monto, MetodoPago) VALUES
 (3,'500.00', 'Transferencia'),
 (4, '200.00', 'Tarjeta'),
 (5, '500.00', 'Efectivo');
+/*SELECT a.alumno_id, a.nombre, a.apellidos, a.edad, a.dni, a.genero, c.descripcion as carrera, s.descripcion as semestre, fechaNacimiento FROM Alumno a inner join Carrera c on a.carrera=c.carrera_id inner join Semestre s on a.semestre=s.semestre_id
+*/
+
+SELECT * FROM Semestre s WHERE s.descripcion = 'Séptimo Semestre'

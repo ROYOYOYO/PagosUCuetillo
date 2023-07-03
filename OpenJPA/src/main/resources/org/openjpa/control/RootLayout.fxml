@@ -19,11 +19,6 @@
               <MenuItem mnemonicParsing="false" onAction="#Alumnos" text="Agregar Alumno" />
             </items>
           </Menu>
-            
-          <Menu mnemonicParsing="false" text="Carreras">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#Carreras" text="Mantenimiento Carreras" />
-               </items></Menu>
             <Menu mnemonicParsing="false" text="Asignaturas">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#Asignaturas" text="Matenimiento Asignaturas" />

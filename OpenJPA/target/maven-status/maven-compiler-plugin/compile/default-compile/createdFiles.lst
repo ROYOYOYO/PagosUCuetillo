@@ -6,10 +6,8 @@ org\openjpa\control\exceptions\IlegalesHuerfanasException.class
 org\openjpa\control\RootLayoutController.class
 org\openjpa\entidades\Alumno.class
 org\openjpa\control\PagoControl.class
-org\openjpa\control\CarreraController.class
 org\openjpa\entidades\Pago.class
 org\openjpa\control\PagosController.class
-org\openjpa\control\SemestresController.class
 org\openjpa\entidades\Semestre.class
 org\openjpa\control\exceptions\NoExisteEntidadException.class
 org\openjpa\control\AlumnoControl.class

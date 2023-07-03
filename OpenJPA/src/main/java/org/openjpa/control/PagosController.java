@@ -5,9 +5,12 @@
 package org.openjpa.control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,97 +20,123 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import org.openjpa.control.exceptions.EntidadPreexistenteException;
+import org.openjpa.control.exceptions.NoExisteEntidadException;
+import org.openjpa.entidades.Alumno;
+import org.openjpa.entidades.Carrera;
+import org.openjpa.entidades.Pago;
 /**
  * FXML Controller class
  *
  * @author AJ
  */
 public class PagosController implements Initializable {
-
-    @FXML
-    private ComboBox<String> cbAlumno;
+   
+    private ObservableList<String> opcionesAlumno;
     @FXML
     private Button btnAgregar;
+    @FXML
+    private Button btnSalir;
     @FXML
     private TableView tblAlumnos;
     @FXML
     private Spinner<Double> spMonto;
     @FXML
+    private Button btnModificar;
+    @FXML
+    private Button btnNuevo;
+    @FXML
     private TextField txtId;
     @FXML
     private ComboBox<String> cbMPago;
     @FXML
-    private Button btnSalir;
-    @FXML
-    private Button btnModificar;
-    @FXML
-    private Button btnNuevo;
-
+    private ComboBox<String> cbAlumno;
+    private PagoControl pagoControl;
+    private AlumnoControl alumnoControl;
     
-
-    /**
-     * Initializes the controller class.
-     */
+    public PagosController() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BaseDatos");
+        this.pagoControl = new PagoControl(emf);
+        opcionesAlumno = FXCollections.observableArrayList();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Start();        
-//        InicializarTable();
-//        CargarDatos();
-//        Nuevo();   
-//        btnAgregar.setDisable(true);
-//        DesActivar(true);
+        InicializarTable();
+        CargarDatos();
+        Nuevo();   
+        btnAgregar.setDisable(true);
+        DesActivar(true);
     }   
     
     public void Start()
     {       
-        ToggleGroup toggleGroup = new ToggleGroup();    
-        SpinnerValueFactory<Double> montoValueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0f, 2500.0f);
-        spMonto.setValueFactory(montoValueFactory);  
-    } 
+        SpinnerValueFactory<Double> edadValueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0, 100.0);
+        spMonto.setValueFactory(edadValueFactory); 
+        btnModificar.setDisable(true);
+        
     }
-    /*
+    
     public void InicializarTable()
     {
-        TableColumn<cAlumno, String> idColumn = new TableColumn<>("ID");
+        
+        TableColumn<Pago, String> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setVisible(false);
-
-        TableColumn<cAlumno, String> AlumnoColumn = new TableColumn<>("Alumno");
-        AlumnoColumn.setCellValueFactory(new PropertyValueFactory<>("Alumno"));
-
-        TableColumn<cAlumno, Integer> montoColumn = new TableColumn<>("Monto");
-        montoColumn.setCellValueFactory(new PropertyValueFactory<>("Monto"));
         
-        TableColumn<cAlumno, String> mpagoColumn = new TableColumn<>("MetodoPago");
-        mpagoColumn.setCellValueFactory(new PropertyValueFactory<>("MetodoPago"));
+        TableColumn<Pago, String> nombreColumn = new TableColumn<>("nombre");
+        nombreColumn.setCellValueFactory(cellData -> {
+        Pago pago = cellData.getValue();
+        int alumnoId = pago.getAlumno();
+        if (alumnoId != 0) { // Verificar si el ID es válido
+            // Obtener la entidad Carrera según el ID
+            Alumno alumno = pagoControl.obtenerAlumnoPorId(alumnoId);
+            if (alumno != null) {
+                return new SimpleStringProperty(alumno.getNombre());
+            }
+        }
+        return new SimpleStringProperty("");
+        });
+        TableColumn<Pago, Double> montoColumn = new TableColumn<>("Monto");
+        montoColumn.setCellValueFactory(new PropertyValueFactory<>("monto"));
+        
+        TableColumn<Pago, String> metodoColumn = new TableColumn<>("Metodo");
+        metodoColumn.setCellValueFactory(new PropertyValueFactory<>("metodoPago"));
 
-
-        // Agregar las columnas al TableView
-        tblAlumnos.getColumns().addAll(idColumn, AlumnoColumn, montoColumn, mpagoColumn);
+        tblAlumnos.getColumns().addAll(idColumn, nombreColumn, montoColumn, metodoColumn);
     }
     
     public void CargarDatos()
     {        
-        cConexion con = new cConexion();
-        Map<String, String> alumnos = con.obtenerAlumnos();
-        ObservableList<String> opcionesAlumnos = FXCollections.observableArrayList(alumnos.values());
+        List<Alumno> alumnos = pagoControl.obtenerAlumnosOrdenadasPorId();
+        
+        List<String> alumnoDescripciones = new ArrayList<>();
         cbMPago.getItems().addAll("Tarjeta", "Efectivo", "Transferencia");
-        cbAlumno.setItems(opcionesAlumnos);
+        for (Alumno alumno : alumnos) {
+            alumnoDescripciones.add(alumno.getNombre());
+        }
 
-        List<cPagos> pagos = con.obtenerDatosPagos();
-        ObservableList<cPagos> data = FXCollections.observableArrayList(pagos);
-        tblAlumnos.setItems(data);
+
+        // Asignar las listas de descripciones a los ComboBox correspondientes
+        ObservableList<String> opcionesAlumnos = FXCollections.observableArrayList(alumnoDescripciones);
+
+        cbAlumno.setItems(opcionesAlumnos);
+        List<Pago> listaAlumnos = pagoControl.buscaPagos();
+        tblAlumnos.getItems().setAll(listaAlumnos);
+        
     }
     
-    @FXML
     public void RecuperarDatos() 
     {
         DesActivar(false);
@@ -115,15 +144,15 @@ public class PagosController implements Initializable {
         {
             if (newSelection != null) 
             {
-                cPagos pagoseleccionado =  (cPagos) newSelection;
-                String id = pagoseleccionado.getId();
-                String alumno = pagoseleccionado.getAlumno();
-                double monto = pagoseleccionado.getMonto();
-                String mpago = pagoseleccionado.getMetodoPago();   
-                txtId.setText(id);
-                cbAlumno.setValue(alumno);
-                spMonto.getValueFactory().setValue(monto);                
-                cbMPago.setValue(mpago);
+                Pago alumnoSeleccionado =  (Pago) newSelection;
+                int id = alumnoSeleccionado.getPagoId();
+                Double Monto = alumnoSeleccionado.getMonto();              
+                int alumno = alumnoSeleccionado.getAlumno();
+                String metodo = alumnoSeleccionado.getMetodoPago();
+                txtId.setText(""+id);
+                spMonto.getValueFactory().setValue(Monto);
+                cbAlumno.getSelectionModel().select(alumno-1);
+                cbMPago.setValue(metodo);
             }
         });
         btnAgregar.setDisable(true);
@@ -132,33 +161,37 @@ public class PagosController implements Initializable {
     
     public void RecuperarFields(int op) 
     {
-        String Id = txtId.getText();
-        String alumno = (String) cbAlumno.getSelectionModel().getSelectedItem();
         double monto = (double) spMonto.getValue();
-        String mpago = (String) cbMPago.getSelectionModel().getSelectedItem();
+        String alumno = (String) cbAlumno.getSelectionModel().getSelectedItem();
+        String metodo = (String) cbMPago.getSelectionModel().getSelectedItem();
         if(op==1)
         {
-            AgregarDatos(alumno, monto, mpago);
+            AgregarDatos(alumno, monto, metodo);
         }
         else
         {
             if(op==2)
             {
-                ModificarDatos(Id, alumno, monto, mpago);
+                int Id = Integer.parseInt(txtId.getText());
+                ModificarDatos(Id, alumno, monto, metodo);
             }
         }
     }
     
-    public void AgregarDatos(String alumno, double monto, String mpago) 
+    public void AgregarDatos(String alumno, double monto, String metodoPago) 
     {
-        cPagos asignatura = new cPagos(null, null, monto, mpago);
-        cConexion con = new cConexion();
-        boolean exito = con.agregarPago(asignatura, alumno);
+        Pago pago = new Pago(pagoControl.obtenerAlumnoId(alumno), monto, metodoPago);
+        int exito = 0;
+        try {
+            exito = pagoControl.insertar(pago);
+        } catch (EntidadPreexistenteException ex) {
+            Logger.getLogger(PagosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        if (exito) 
+        if (exito!=0) 
         {            
             Alert alert = new Alert(AlertType.INFORMATION);
-            String[] Mensaje = {"Éxito","Pago exitoso","El Pago se ha agregado correctamente."};
+            String[] Mensaje = {"Éxito","Pago agregado","El pago se ha agregado correctamente."};
             Mensaje(alert, Mensaje);
             Nuevo();
             btnAgregar.setDisable(true);
@@ -169,32 +202,38 @@ public class PagosController implements Initializable {
         {
             // Mostrar una alerta de error
             Alert alert = new Alert(AlertType.ERROR);
-            String[] Mensaje = {"Error","Error al intentar Pago","Ha ocurrido un error al intentar registrar el Pago."};
+            String[] Mensaje = {"Error","Error al agregar pago","Ha ocurrido un error al intentar agregar el pago."};
             Mensaje(alert, Mensaje);
         }
     }
     
-    public void ModificarDatos(String Id, String alumno, double monto, String mpago) 
+    public void ModificarDatos(int Id,String alumno, double monto, String metodoPago) 
     {
-        cPagos pago = new cPagos(Id, null, monto, mpago);
-        cConexion con = new cConexion();
-        boolean exito = con.modificarPago(pago, alumno);
+        Pago pago = new Pago(pagoControl.obtenerAlumnoId(alumno), monto, metodoPago);
+        pago.setPagoId(Id);
+        int exito = 0;
+        try {
+            exito = pagoControl.editar(pago);
+        } catch (NoExisteEntidadException ex) {
+            Logger.getLogger(PagosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        if (exito) 
-        {            
+        if (exito!=0)
+        {
             Alert alert = new Alert(AlertType.INFORMATION);
-            String[] Mensaje = {"Éxito","Pago modificado","El Pago se ha modificado correctamente."};
+            String[] Mensaje = {"Éxito","Pago modificado","El pago se ha modificado correctamente."};
             Mensaje(alert, Mensaje);
             Nuevo();
             CargarDatos();
-        } 
-        else 
+            DesActivar(true);
+        }
+        else
         {
             // Mostrar una alerta de error
             Alert alert = new Alert(AlertType.ERROR);
-            String[] Mensaje = {"Error","Error al modificar Pago","Ha ocurrido un error al intentar modificar el Pago."};
+            String[] Mensaje = {"Error","Error al modificar pago","Ha ocurrido un error al intentar modificar el pago."};
             Mensaje(alert, Mensaje);
-        }
+        }     
     }
     
      @FXML
@@ -205,8 +244,7 @@ public class PagosController implements Initializable {
         txtId.setText("");
         cbAlumno.getSelectionModel().select(0);
         cbMPago.getSelectionModel().select(0);
-        spMonto.getValueFactory().setValue(2500.0);
-        cbAlumno.requestFocus();
+        spMonto.getValueFactory().setValue(150.0);
         btnModificar.setDisable(true);
     }
     public void DesActivar(boolean a)
@@ -240,6 +278,6 @@ public class PagosController implements Initializable {
     }
 
 
-}*/
+}
 
 

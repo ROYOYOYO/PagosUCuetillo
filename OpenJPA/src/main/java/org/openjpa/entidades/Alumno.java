@@ -70,8 +70,8 @@ public class Alumno implements Serializable
         return alumnoId;
     }
 
-    public void setPersonaId(Integer personaId) {
-        this.alumnoId = personaId;
+    public void setAlumnoId(Integer alumnoId) {
+        this.alumnoId = alumnoId;
     }
 
     public String getNombre() {

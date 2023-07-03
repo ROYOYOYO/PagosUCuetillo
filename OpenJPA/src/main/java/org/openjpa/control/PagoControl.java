@@ -11,6 +11,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.openjpa.control.exceptions.EntidadPreexistenteException;
 import org.openjpa.control.exceptions.NoExisteEntidadException;
+import org.openjpa.entidades.Alumno;
+import org.openjpa.entidades.Carrera;
 import org.openjpa.entidades.Pago;
 
 public class PagoControl implements Serializable {
@@ -44,13 +46,15 @@ public class PagoControl implements Serializable {
         return pago.getPagoId();
     }
 
-    public void editar(Pago pago) throws NoExisteEntidadException {
+    public int editar(Pago pago) throws NoExisteEntidadException {
         EntityManager em = null;
+        int aux = 0;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             pago = em.merge(pago);
             em.getTransaction().commit();
+            aux = pago.getPagoId();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -65,6 +69,7 @@ public class PagoControl implements Serializable {
                 em.close();
             }
         }
+        return aux;
     }
 
     public void eliminar(Integer id) throws NoExisteEntidadException {
@@ -119,5 +124,26 @@ public class PagoControl implements Serializable {
             em.close();
         }
     }
-
+    public int obtenerAlumnoId(String alumno) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Alumno> query = em.createQuery("SELECT c FROM Alumno c WHERE c.nombre = :descripcion", Alumno.class);
+        query.setParameter("descripcion", alumno);
+        Alumno carrera = query.getSingleResult();
+        return carrera.getAlumnoId();
+    }
+    
+    public Alumno obtenerAlumnoPorId(int alumnoId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Alumno.class, alumnoId);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Alumno> obtenerAlumnosOrdenadasPorId() {
+    EntityManager em = getEntityManager();
+    TypedQuery<Alumno> query = em.createQuery("SELECT a FROM Alumno a", Alumno.class);
+    return query.getResultList();
+    }
 }

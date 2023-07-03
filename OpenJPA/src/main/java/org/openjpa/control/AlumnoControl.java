@@ -46,13 +46,15 @@ public class AlumnoControl implements Serializable {
         return alumno.getAlumnoId();
     }
 
-    public void editar(Alumno alumno) throws NoExisteEntidadException {
+    public int editar(Alumno alumno) throws NoExisteEntidadException {
         EntityManager em = null;
+        int aux = 0;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             alumno = em.merge(alumno);
             em.getTransaction().commit();
+            aux = alumno.getAlumnoId();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -67,6 +69,7 @@ public class AlumnoControl implements Serializable {
                 em.close();
             }
         }
+        return aux;
     }
 
     public void eliminar(Integer id) throws NoExisteEntidadException {
@@ -138,6 +141,23 @@ public class AlumnoControl implements Serializable {
         return carrera.getSemestreId();
     }
     
+    public Carrera obtenerCarreraPorId(int carreraId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Carrera.class, carreraId);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Semestre obtenerSemestrePorId(int semestreId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Semestre.class, semestreId);
+        } finally {
+            em.close();
+        }
+    }
     
     public List<Carrera> obtenerCarrerasOrdenadasPorId() {
     EntityManager em = getEntityManager();

@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.openjpa.control.exceptions.EntidadPreexistenteException;
+import org.openjpa.control.exceptions.NoExisteEntidadException;
 import org.openjpa.entidades.Alumno;
 import org.openjpa.entidades.Carrera;
 import org.openjpa.entidades.Semestre;
@@ -134,10 +136,32 @@ public class AlumnosController implements Initializable {
         generoColumn.setCellValueFactory(new PropertyValueFactory<>("genero"));
 
         TableColumn<Alumno, String> carreraColumn = new TableColumn<>("Carrera");
-        carreraColumn.setCellValueFactory(new PropertyValueFactory<>("carrera"));
+        carreraColumn.setCellValueFactory(cellData -> {
+        Alumno alumno = cellData.getValue();
+        int carreraId = alumno.getCarrera();
+        if (carreraId != 0) { // Verificar si el ID es válido
+            // Obtener la entidad Carrera según el ID
+            Carrera carrera = alumnoControl.obtenerCarreraPorId(carreraId);
+            if (carrera != null) {
+                return new SimpleStringProperty(carrera.getDescripcion());
+            }
+        }
+        return new SimpleStringProperty("");
+});
 
         TableColumn<Alumno, String> semestreColumn = new TableColumn<>("Semestre");
-        semestreColumn.setCellValueFactory(new PropertyValueFactory<>("semestre"));
+        semestreColumn.setCellValueFactory(cellData -> {
+            Alumno alumno = cellData.getValue();
+            int semestreId = alumno.getSemestre();
+            if (semestreId != 0) { // Verificar si el ID es válido
+                // Obtener la entidad Semestre según el ID
+                Semestre semestre = alumnoControl.obtenerSemestrePorId(semestreId);
+                if (semestre != null) {
+                    return new SimpleStringProperty(semestre.getDescripcion());
+                }
+            }
+            return new SimpleStringProperty("");
+        });
         
         TableColumn<Alumno, Date> fechaColumn = new TableColumn<>("Nacimiento");
         fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
@@ -215,7 +239,6 @@ public class AlumnosController implements Initializable {
     
     public void RecuperarFields(int op) 
     {
-        String Id = txtId.getText();
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();
         int edad = (int) spEdad.getValue();
@@ -232,6 +255,7 @@ public class AlumnosController implements Initializable {
         {
             if(op==2)
             {
+                int Id = Integer.parseInt(txtId.getText());
                 ModificarDatos(Id, nombre, apellido, edad, dni, genero, carrera, semestre, fecha);
             }
         }
@@ -266,27 +290,33 @@ public class AlumnosController implements Initializable {
         }
     }
     
-    public void ModificarDatos(String Id,String nombre, String apellido, int edad, int dni, char genero, String carrera, String semestre, Date fecha) 
+    public void ModificarDatos(int Id,String nombre, String apellido, int edad, int dni, char genero, String carrera, String semestre, Date fecha) 
     {
-//        cAlumno alumno = new cAlumno(Id, nombre, apellido, edad, dni, genero, null, null);
-//        cConexion con = new cConexion();
-//        boolean exito = con.modificarAlumno(alumno, semestre, carrera);
-//
-//        if (exito) 
-//        {            
-//            Alert alert = new Alert(AlertType.INFORMATION);
-//            String[] Mensaje = {"Éxito","Alumno modificado","El alumno se ha modificado correctamente."};
-//            Mensaje(alert, Mensaje);
-//            Nuevo();
-//            CargarDatos();
-//        } 
-//        else 
-//        {
-//            // Mostrar una alerta de error
-//            Alert alert = new Alert(AlertType.ERROR);
-//            String[] Mensaje = {"Error","Error al modificar alumno","Ha ocurrido un error al intentar modificar al alumno."};
-//            Mensaje(alert, Mensaje);
-//        }
+        Alumno alumno = new Alumno(nombre, apellido, edad, dni, String.valueOf(genero), alumnoControl.obtenerCarreraId(carrera), alumnoControl.obtenerSemestreId(semestre),fecha);
+        alumno.setAlumnoId(Id);
+        int exito =0;
+        try {
+            exito = alumnoControl.editar(alumno);
+        } catch (NoExisteEntidadException ex) {
+            Logger.getLogger(AlumnosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (exito!=0)
+        {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            String[] Mensaje = {"Éxito","Alumno modificado","El alumno se ha modificado correctamente."};
+            Mensaje(alert, Mensaje);
+            Nuevo();
+            CargarDatos();
+            DesActivar(true);
+        }
+        else
+        {
+            // Mostrar una alerta de error
+            Alert alert = new Alert(AlertType.ERROR);
+            String[] Mensaje = {"Error","Error al modificar alumno","Ha ocurrido un error al intentar modificar al alumno."};
+            Mensaje(alert, Mensaje);
+        }     
     }
     
      @FXML

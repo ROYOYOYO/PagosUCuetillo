@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 import org.openjpa.control.exceptions.EntidadPreexistenteException;
 import org.openjpa.control.exceptions.NoExisteEntidadException;
 import org.openjpa.entidades.Asignatura;
+import org.openjpa.entidades.Carrera;
+import org.openjpa.entidades.Semestre;
 
 public class AsignaturaControl implements Serializable {
 
@@ -44,13 +46,15 @@ public class AsignaturaControl implements Serializable {
         return asignatura.getAsignaturaId();
     }
 
-    public void editar(Asignatura asignatura) throws NoExisteEntidadException {
+    public int editar(Asignatura asignatura) throws NoExisteEntidadException {
         EntityManager em = null;
+        int aux = 0;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             asignatura = em.merge(asignatura);
             em.getTransaction().commit();
+            aux = asignatura.getAsignaturaId();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -65,6 +69,7 @@ public class AsignaturaControl implements Serializable {
                 em.close();
             }
         }
+        return aux;
     }
 
     public void eliminar(Integer id) throws NoExisteEntidadException {
@@ -106,7 +111,24 @@ public class AsignaturaControl implements Serializable {
             em.close();
         }
     }
+    
+    public Carrera obtenerCarreraPorId(int carreraId) {
+            EntityManager em = getEntityManager();
+            try {
+                return em.find(Carrera.class, carreraId);
+            } finally {
+                em.close();
+            }
+        }
 
+    public Semestre obtenerSemestrePorId(int semestreId) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Semestre.class, semestreId);
+        } finally {
+            em.close();
+        }
+    }
     public int getTotalAsignatura() {
         EntityManager em = getEntityManager();
         try {
@@ -119,5 +141,31 @@ public class AsignaturaControl implements Serializable {
             em.close();
         }
     }
+    public List<Carrera> obtenerCarrerasOrdenadasPorId() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c", Carrera.class);
+        return query.getResultList();
+    }
 
+    public List<Semestre> obtenerSemestresOrdenadosPorId() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Semestre> query = em.createQuery("SELECT s FROM Semestre s", Semestre.class);
+        return query.getResultList();
+    }
+    
+    public int obtenerCarreraId(String Carrera) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c WHERE c.descripcion = :descripcion", Carrera.class);
+        query.setParameter("descripcion", Carrera);
+        Carrera carrera = query.getSingleResult();
+        return carrera.getCarreraId();
+    }
+
+    public int obtenerSemestreId(String Semestre) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Semestre> query = em.createQuery("SELECT s FROM Semestre s WHERE s.descripcion = :descripcion", Semestre.class);
+        query.setParameter("descripcion", Semestre);
+        Semestre carrera = query.getSingleResult();
+        return carrera.getSemestreId();
+    }
 }

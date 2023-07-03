@@ -26,9 +26,10 @@
       <Label layoutX="502.0" layoutY="207.0" prefHeight="22.0" prefWidth="124.0" text="MONTO DE PAGO" />
       <ScrollPane layoutY="410.0" prefHeight="310.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="410.0">
          <content>
-            <TableView fx:id="tblAlumnos" prefHeight="309.0" prefWidth="1278.0" styleClass="background" stylesheets="@DarkTheme.css">
-              
-            </TableView>
+            <TableView fx:id="tblAlumnos" onMouseClicked="#ModifDatos" prefHeight="309.0" prefWidth="1278.0" styleClass="background" stylesheets="@DarkTheme.css">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
          </content>
       </ScrollPane>
       <Spinner fx:id="spMonto" editable="true" layoutX="641.0" layoutY="200.0" />
