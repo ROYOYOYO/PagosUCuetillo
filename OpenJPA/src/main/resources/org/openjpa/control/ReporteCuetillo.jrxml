@@ -9,9 +9,10 @@
 	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
 	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style mode="Opaque" backcolor="#F0EFEF"/>
-		</conditionalStyle>
+                    <conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+                    <style mode="Opaque" backcolor="#F0EFEF"/>
+                </conditionalStyle>
+
 	</style>
 	<queryString>
 		<![CDATA[select  * from alumno a inner join pago p on a.alumno_id=p.alumno]]>
